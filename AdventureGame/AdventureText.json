@@ -1,0 +1,101 @@
+//{
+//  "locations": [
+//    {
+//      "ID": 1,
+//      "Title": "Start",
+//      "Text": "Which direction would you like to go?",
+//      "Roads": [
+//        {
+//          "ID": 2,
+//          "Title": "North - The Misty Mountains"
+//        },
+//        {
+//          "ID": 3,
+//          "Title": "East - The Haunted Swamp"
+//        },
+//        {
+//          "ID": 4,
+//          "Title": "West - The Sunlit Grove"
+//        },
+//        {
+//          "ID": 0,
+//          "Title": "South - Return Home"
+//        }
+//      ]
+//    },
+//  ],
+//  "locationData": [
+//    {
+//      "ID": 2,
+//      "Title": "North - The Misty Mountains",
+//      "Events": [
+//        {
+//          "ID": 0,
+//          "Title": ["Would you like to enter the cave?"],
+//          "Choices": [ "Yes", "No" ],
+//          "True": 3,
+//          "False": 4
+//        },
+//        {
+//          "ID": 1,
+//          "Title": [ "Inside, you find a treasure guarded by a sleeping dragon!", "What", "will", "you", "do?" ],
+//          "Choices": [ "Fight the dragon", "Run away" ]
+//        },
+//        {
+//          "ID": 2,
+//          "Title": [ "The dragon awakens and breathes fire!" ],
+//          "Roll": 10,
+//          "Win": {
+//            "Text": "You slay the dragon and take the treasure!",
+//            "Item": {
+//              "Title": "Gold Pendant",
+//              "Value": 50
+//            },
+//            "Next": {"Text": "You leave the cave, and go back to the crossroad.", "Location": 1}
+//          },
+//          "Fail": { "Text": ["The dragon defeats you!", "Game Over!"], "Location": 0  },
+//          "Choices": [ "None" ]
+//        },
+//        {
+//          "ID": 0,
+//          "Title": "You decide to avoid the dangers of the cave and head back.",
+//        }
+//      ]
+//    }
+//  ],
+//  "inventory": {},
+//  "character": {
+//    "Name":  "John",
+//    "Class": "Warrior",
+//    "Attack": 4,
+//    "Hp": 10
+//  }
+//}
+
+
+
+{
+  "inventory": [
+    {
+      "Title": "Shortsword",
+      "Type": "Weapon",
+      "Equiped": true,
+      "Damage": 5,
+      "Stat": "Strength"
+    }
+  ],
+  "character": {
+    "Name": "John",
+    "Class": "Fighter",
+    "Stats": {
+      "Strength": 10,
+      "Dexterity": 10,
+      "Constitution": 10,
+      "Wisdom": 10,
+      "Intelligence": 10,
+      "Charisma": 10
+    },
+    "Attack": 4,
+    "Hp": 10
+  }
+}
