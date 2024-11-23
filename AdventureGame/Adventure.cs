@@ -11,7 +11,6 @@ namespace AdventureGame
     public class Adventure
     {
         RollDie rollDie = new RollDie();
-        roll
         bool exploring = true;
         public void Start()
         {
