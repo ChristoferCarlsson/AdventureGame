@@ -33,7 +33,8 @@ namespace AdventureGame
                 switch (combatChoice)
                 {
                     case "Two handed sword - 80 gold":
-                        AnsiConsole.Markup("\n[blue]You buy the two handed sword[/]\n");
+                        AnsiConsole.Markup("\n[blue]Ah, you have a fine eye. This sword was handcrafted by my old man.[/]\n");
+                        AnsiConsole.Markup("\n[blue]Attack + 6[/]\n");
                         break;
                     case "Heavy armor - 100 gold":
                         AnsiConsole.Markup("\n[blue]You buy the heavy armor[/]\n");
