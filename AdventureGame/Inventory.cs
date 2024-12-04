@@ -22,11 +22,13 @@ namespace AdventureGame
     {
         public int Gold { get; set; }
         public List<Treasure> Treasure { get; set; }
+        public List<Item> Items { get; set; }
 
-        public Inventory(int gold, List<Treasure> treasure)
+        public Inventory(int gold, List<Treasure> treasure, List<Item> items)
         {
             Gold = gold;
             Treasure = treasure;
+            Items = items;
         }
     }
 }

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace AdventureGame
 {
-    public class StoreItem
+    public class Item
     {
         public string Title { get; set; }
         public int Price { get; set; }
@@ -15,7 +15,7 @@ namespace AdventureGame
         public bool TwoHanded { get; set; }
         public string Text { get; set; }
 
-        public StoreItem( string title, int price, int damage, int armor, bool twoHanded, string text)
+        public Item( string title, int price, int damage, int armor, bool twoHanded, string text)
         {
             Title = title;
             Price = price;

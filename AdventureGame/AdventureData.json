@@ -8,6 +8,17 @@
           "Value": 150,
           "Text": "A pretty lamp.. could be sold for some adventure gold"
         }
+      ],
+      "Items": [
+        {
+          "Title": "Knife",
+          "Price": 20,
+          "Type": "Item",
+          "TwoHanded": false,
+          "Damage": 1,
+          "Armor": 0,
+          "Text": "A small blade"
+        }
       ]
     }
   ],
