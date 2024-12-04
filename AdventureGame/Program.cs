@@ -26,7 +26,8 @@ namespace AdventureGame
             switch (startSelection)
             {
                 case "Yes":
-                    adventure.Start();
+                    //adventure.Start();
+                    store.Shop();
                     break;
                 case "No":
                     AnsiConsole.Markup("[red]Goodbye, adventurer![/]");

@@ -10,6 +10,11 @@ namespace AdventureGame
 
     public class Adventure
     {
+        //Vi sätter upp våran JSON fil
+        string dataJSONfilPath = "AdventureData.json";
+        JsonFetch JsonFetch = new JsonFetch();
+        MyDatabase myDatabase = JsonFetch.fetch();
+
         RollDie rollDie = new RollDie();
         bool exploring = true;
         public void Start()
@@ -22,6 +27,7 @@ namespace AdventureGame
 
         public void CrossRoad()
         {
+
             AnsiConsole.Markup("\n[green]You find yourself in a dark forest. You can barely make out paths leading in different directions.[/]\n");
             // Show location choices
             var location = AnsiConsole.Prompt(
