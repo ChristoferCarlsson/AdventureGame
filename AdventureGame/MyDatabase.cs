@@ -18,6 +18,9 @@ namespace AdventureGame
         [JsonPropertyName("inventory")]
         public List <Inventory> Inventory { get; set; }
 
+        [JsonPropertyName("enemies")]
+        public List<Character> Enemies { get; set; }
+
 
     }
 }

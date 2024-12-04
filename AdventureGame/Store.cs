@@ -9,8 +9,6 @@ namespace AdventureGame
         JsonFetch JsonFetch = new JsonFetch();
         MyDatabase myDatabase = JsonFetch.fetch();
 
-
-
         List<string> bought = new List<string>();
 
         int money = 0;
