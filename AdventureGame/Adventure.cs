@@ -53,7 +53,7 @@ namespace AdventureGame
                     AnsiConsole.Markup("\n[blue]You are attacked by a goblin![/]\n");
 
                     var enemy = myDatabase.Enemies[0];
-                    var player = myDatabase.Player[0];
+                    var player = myDatabase.Player;
                     combat.Start(player, enemy);
                     break;
                 case "East - The Haunted Swamp":
