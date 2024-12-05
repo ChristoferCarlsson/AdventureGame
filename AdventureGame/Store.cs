@@ -14,9 +14,9 @@ namespace AdventureGame
         int money = 0;
         public void Shop()
         {
-            List<Inventory> inventory = myDatabase.Inventory;
+            var inventory = myDatabase.Inventory;
             bool shop = true;
-            money = inventory[0].Gold;
+            money = inventory.Gold;
 
             AnsiConsole.Markup($"\n[green]You are facing a store clerk.[/]\n");
             AnsiConsole.Markup("\n[blue]Welcome![/]\n");
@@ -70,7 +70,7 @@ namespace AdventureGame
                     case "Leave":
                         AnsiConsole.Markup("\n[blue]Have a nice day![/]\n");
                         AnsiConsole.Markup("\n[blue]You leave the store[/]\n");
-                        inventory[0].Gold = money;
+                        myDatabase.Inventory.Gold = money;
 
 
                         foreach (var item in bought)

@@ -13,10 +13,13 @@ namespace AdventureGame
         public List<Arsenal> StoreItems { get; set; }
 
         [JsonPropertyName("player")]
-        public List<Character> Player { get; set; }
+        public Character Player { get; set; }
+
+        [JsonPropertyName("test")]
+        public Arsenal Test { get; set; }
 
         [JsonPropertyName("inventory")]
-        public List <Inventory> Inventory { get; set; }
+        public Inventory Inventory { get; set; }
 
         [JsonPropertyName("enemies")]
         public List<Character> Enemies { get; set; }

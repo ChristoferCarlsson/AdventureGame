@@ -1,20 +1,57 @@
 {
-  "player": [
-    {
-      "Name": "John Doe",
-      "Health": 15,
-      "Attack": 2,
-      "Defence": 5,
-      "Weapon": {
+  "test": {
+    "Title": "Knife",
+    "Price": 20,
+    "Type": "Weapon",
+    "TwoHanded": false,
+    "Damage": 1,
+    "Armor": 0,
+    "Text": "A small kitchen knife"
+  },
+  "player": {
+    "Name": "John Doe",
+    "Health": 15,
+    "Attack": 2,
+    "Defence": 5,
+    "Weapon": {
+      "Title": "Knife",
+      "Price": 20,
+      "Type": "Weapon",
+      "TwoHanded": false,
+      "Damage": 1,
+      "Armor": 0,
+      "Text": "A small kitchen knife"
+    },
+    "Armor": {
+      "Title": "Old Cloth Armor",
+      "Price": 25,
+      "Type": "Armor",
+      "TwoHanded": false,
+      "Damage": 0,
+      "Armor": 5,
+      "Text": "A old tattered armor"
+    }
+  },
+  "inventory": {
+    "Gold": 150,
+    "Treasure": [
+      {
+        "Title": "A silver lamp",
+        "Value": 150,
+        "Text": "A pretty lamp.. could be sold for some adventure gold"
+      }
+    ],
+    "Arsenal": [
+      {
         "Title": "Knife",
         "Price": 20,
-        "Type": "Weapon",
+        "Type": "Arsenal",
         "TwoHanded": false,
         "Damage": 1,
         "Armor": 0,
-        "Text": "A small kitchen knife"
+        "Text": "A small blade"
       },
-      "Armor": {
+      {
         "Title": "Old Cloth Armor",
         "Price": 25,
         "Type": "Armor",
@@ -23,40 +60,8 @@
         "Armor": 5,
         "Text": "A old tattered armor"
       }
-    }
-  ],
-  "inventory": [
-    {
-      "Gold": 150,
-      "Treasure": [
-        {
-          "Title": "A silver lamp",
-          "Value": 150,
-          "Text": "A pretty lamp.. could be sold for some adventure gold"
-        }
-      ],
-      "Arsenal": [
-        {
-          "Title": "Knife",
-          "Price": 20,
-          "Type": "Arsenal",
-          "TwoHanded": false,
-          "Damage": 1,
-          "Armor": 0,
-          "Text": "A small blade"
-        },
-        {
-          "Title": "Old Cloth Armor",
-          "Price": 25,
-          "Type": "Armor",
-          "TwoHanded": false,
-          "Damage": 0,
-          "Armor": 5,
-          "Text": "A old tattered armor"
-        }
-      ]
-    }
-  ],
+    ]
+  },
   "store": [
     {
       "Title": "Shortsword",

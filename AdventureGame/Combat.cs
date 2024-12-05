@@ -16,7 +16,6 @@ namespace AdventureGame
             Console.WriteLine((playerFirst) ? "You go first" : "Enemy go first");
 
             bool fight = true;
-            bool dead = false;
 
             while (fight) 
             {
