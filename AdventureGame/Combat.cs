@@ -5,9 +5,6 @@ namespace AdventureGame
 {
     public class Combat
     {
-        //We create the player and the enemy
-        //Character player = new Character("Player",3,10,15);
-        //Character enemy = new Character("Kobold",2, 10, 10);
 
         //We create a die
         RollDie rollDie = new RollDie();
@@ -83,7 +80,7 @@ namespace AdventureGame
             {
                 int damageRoll = rollDie.Roll(6) + attacker.Attack;
                 defender.Health = defender.Health - damageRoll;
-                Console.WriteLine($" The attack hits, dealing {damageRoll} points of damage.");
+                Console.WriteLine($"The attack hits, dealing {damageRoll} points of damage.");
                 if (defender.Health <= 0)
                 {
                     return true;

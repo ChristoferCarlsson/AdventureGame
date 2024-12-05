@@ -10,10 +10,10 @@ namespace AdventureGame
     public class MyDatabase
     {
         [JsonPropertyName("store")]
-        public List<Item> StoreItems { get; set; }
+        public List<Arsenal> StoreItems { get; set; }
 
-        [JsonPropertyName("gold")]
-        public int Gold { get; set; }
+        [JsonPropertyName("player")]
+        public List<Character> Player { get; set; }
 
         [JsonPropertyName("inventory")]
         public List <Inventory> Inventory { get; set; }
