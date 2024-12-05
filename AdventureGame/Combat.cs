@@ -5,11 +5,17 @@ namespace AdventureGame
 {
     public class Combat
     {
+        //Vi sätter upp våran JSON fil
+        string dataJSONfilPath = "AdventureData.json";
+        JsonFetch JsonFetch = new JsonFetch();
+        MyDatabase myDatabase = JsonFetch.fetch();
+
         //We create a die that we will use for the combat solutions
         RollDie rollDie = new RollDie();
 
-        public void Start(Character player, Character enemy)
+        public void Start(Character enemy)
         {
+            var player = myDatabase.Player;
             //We check if the player or the enemy goes first.
             bool playerFirst = Initiative();
             Thread.Sleep(1000);
@@ -68,7 +74,7 @@ namespace AdventureGame
 
         public bool Attack(Character attacker, Character defender)
         {
-            Thread.Sleep(1000);
+            Thread.Sleep(500);
 
             Console.WriteLine($"{attacker.Name} attacks");
             Thread.Sleep(1000);
@@ -100,12 +106,16 @@ namespace AdventureGame
         {
             if (dead == true && character == "player" )
             {
+                Thread.Sleep(500);
                 Console.WriteLine($"The enemy has fallen.");
+                Thread.Sleep(500);
                 Console.WriteLine("You are victorious");
                 return true;
             } else if (dead == true && character == "enemy" )
             {
+                Thread.Sleep(500);
                 Console.WriteLine($"You have fallen.");
+                Thread.Sleep(500);
                 Console.WriteLine("You are dead");
                 return true;
             } else
@@ -133,7 +143,6 @@ namespace AdventureGame
                                 "Item",
                                 "Run",
                         }));
-
 
                 // Handle location logic
                 switch (combatChoice)

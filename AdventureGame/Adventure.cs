@@ -51,10 +51,7 @@ namespace AdventureGame
                 case "North - The Misty Mountains":
                     AnsiConsole.Markup("\n[blue]You went to the mountains.[/]\n");
                     AnsiConsole.Markup("\n[blue]You are attacked by a goblin![/]\n");
-
-                    var enemy = myDatabase.Enemies[0];
-                    var player = myDatabase.Player;
-                    combat.Start(player, enemy);
+                    combat.Start(myDatabase.Enemies[0]);
                     break;
                 case "East - The Haunted Swamp":
                     AnsiConsole.Markup("\n[blue]You went to the swamp.[/]\n");
