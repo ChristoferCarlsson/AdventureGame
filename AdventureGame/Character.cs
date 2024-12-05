@@ -9,16 +9,19 @@ namespace AdventureGame
     public class Character
     {
         public string Name { get; set; }
-        public int Attack {  get; set; }
         public int Health { get; set; }
+        public int Attack {  get; set; }
         public int Defence { get; set; }
-
-        public Character(string name, int attack, int health, int defence)
+        public Arsenal Weapon { get; set; }
+        public Arsenal Armor { get; set; }
+        public Character(string name, int health, int attack, int defence,  Arsenal weapon, Arsenal armor)
         {
             Name = name;
-            Attack = attack;
             Health = health;
+            Attack = attack;
             Defence = defence;
+            Weapon = weapon;
+            Armor = armor;
         }
     }
 }

@@ -10,6 +10,15 @@ namespace AdventureGame
 
     public class Adventure
     {
+        //Vi sätter upp våran JSON fil
+        string dataJSONfilPath = "AdventureData.json";
+        JsonFetch JsonFetch = new JsonFetch();
+        MyDatabase myDatabase = JsonFetch.fetch();
+
+        Combat combat = new Combat();
+        Store store = new Store();
+
+
         RollDie rollDie = new RollDie();
         bool exploring = true;
         public void Start()
@@ -22,6 +31,7 @@ namespace AdventureGame
 
         public void CrossRoad()
         {
+
             AnsiConsole.Markup("\n[green]You find yourself in a dark forest. You can barely make out paths leading in different directions.[/]\n");
             // Show location choices
             var location = AnsiConsole.Prompt(
@@ -40,12 +50,19 @@ namespace AdventureGame
             {
                 case "North - The Misty Mountains":
                     AnsiConsole.Markup("\n[blue]You went to the mountains.[/]\n");
+                    AnsiConsole.Markup("\n[blue]You are attacked by a goblin![/]\n");
+
+                    var enemy = myDatabase.Enemies[0];
+                    var player = myDatabase.Player[0];
+                    combat.Start(player, enemy);
                     break;
                 case "East - The Haunted Swamp":
                     AnsiConsole.Markup("\n[blue]You went to the swamp.[/]\n");
                     break;
                 case "West - The Sunlit Grove":
                     AnsiConsole.Markup("\n[blue]You went to the grove.[/]\n");
+                    AnsiConsole.Markup("\n[blue]You found a shop!.[/]\n");
+                    store.Shop();
                     break;
                 case "South - Return Home":
                     AnsiConsole.Markup("\n[blue]You decide to return home, ending your adventure for now.[/]\n");

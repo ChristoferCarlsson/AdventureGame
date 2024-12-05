@@ -4,60 +4,75 @@ namespace AdventureGame
 {
     public class Store
     {
-        int money = 150;
+        //Vi sätter upp våran JSON fil
+        string dataJSONfilPath = "AdventureData.json";
+        JsonFetch JsonFetch = new JsonFetch();
+        MyDatabase myDatabase = JsonFetch.fetch();
 
         List<string> bought = new List<string>();
 
+        int money = 0;
         public void Shop()
         {
+            List<Inventory> inventory = myDatabase.Inventory;
             bool shop = true;
+            money = inventory[0].Gold;
 
             AnsiConsole.Markup($"\n[green]You are facing a store clerk.[/]\n");
-            AnsiConsole.Markup($"Welcome!");
+            AnsiConsole.Markup("\n[blue]Welcome![/]\n");
+
+
             Thread.Sleep(1000);
+            Console.Clear();
             while (shop)
             {
+                AnsiConsole.Markup("\n[blue]What can I get ya?[/]\n");
+                Console.WriteLine($"You have {money} gold");
                 var combatChoice = AnsiConsole.Prompt(
                     new SelectionPrompt<string>()
-                        .Title("What can I get ya?")
+                        .Title("")
                         .AddChoices(new[] {
-                                "Two handed sword - 80 gold",
-                                "Heavy armor - 100 gold",
-                                "Shield - 50 gold",
-                                "Leave",
+                            "Shortsword - 50 gold",
+                            "Longsword - 80 gold",
+                            "Greatsword - 100 gold",
+                            "Shield - 50 gold",
+                            "Leave",
                         }));
 
 
                 // Handle location logic
                 switch (combatChoice)
                 {
-                    case "Two handed sword - 80 gold":
-                        AnsiConsole.Markup("\n[blue]Ah, you have a fine eye. This sword was handcrafted by my old man.[/]\n");
-                        AnsiConsole.Markup("\n[blue]80 gold[/]\n");
-                        AnsiConsole.Markup("\n[blue]Attack + 6[/]\n");
-
-                        Purchase(80, "Two Handed Sword");
-
+                    case "Shortsword - 50 gold":
+                        AnsiConsole.Markup("\n[blue]Ah, you have a fine eye. My boy made this the other week.[/]\n");
+                        Item("A short sword", 50, 2, 0, false);
+                        Purchase(50, "Shortsword");
                         break;
-                    case "Heavy armor - 100 gold":
-                        AnsiConsole.Markup("\n[blue]My fines work yet. I made sure to put my premium gloves on for this one.[/]\n");
-                        AnsiConsole.Markup("\n[blue]10 gold[/]\n");
-                        AnsiConsole.Markup("\n[blue]Defence + 4[/]\n");
 
-                        Purchase(100, "Heavy Armor");
+                    case "Longsword - 80 gold":
+                        AnsiConsole.Markup("\n[blue]Ah, you have a fine eye. This was handcrafted by my old man.[/]\n");
+                        Item("A long sword", 80, 3, 0, false);
+                        Purchase(80, "Longsword");
                         break;
+
+                    case "Greatsword - 100 gold":
+                        AnsiConsole.Markup("\n[blue]Ah, you have a fine eye. This was handcrafted by my old man.[/]\n");
+                        Item("A great sword", 100, 5, 0, true);
+                        Purchase(100, "Greatsword");
+                        break;
+
                     case "Shield - 50 gold":
-                        AnsiConsole.Markup("\n[blue]My son actually made that one. But don't let it fool ya, it can take a beating.[/]\n");
-                        AnsiConsole.Markup("\n[blue]Can only be used with a One handed weapon[/]\n");
-                        AnsiConsole.Markup("\n[blue]50 gold[/]\n");
-                        AnsiConsole.Markup("\n[blue]Defence +2[/]\n");
-
+                        AnsiConsole.Markup("\n[blue]Ah, you have a fine eye. This was handcrafted by my old man.[/]\n");
+                        Item("A Shield, need one hand free hands", 50, 0, 2, false);
                         Purchase(50, "Shield");
                         break;
+
                     case "Leave":
                         AnsiConsole.Markup("\n[blue]Have a nice day![/]\n");
                         AnsiConsole.Markup("\n[blue]You leave the store[/]\n");
-                        Console.WriteLine(money);
+                        inventory[0].Gold = money;
+
+
                         foreach (var item in bought)
                         {
                             Console.WriteLine(item);
@@ -87,7 +102,7 @@ namespace AdventureGame
 
                     if (money >= price)
                     {
-                        AnsiConsole.Markup("\n[blue]You buy it[/]\n");
+                        AnsiConsole.Markup("\n[blue]Thanks for your business[/]\n");
                         money = money - price;
                         bought.Add(item);
                         Thread.Sleep(1000);
@@ -107,9 +122,16 @@ namespace AdventureGame
                     Console.Clear();
                     return;
             }
+        }
 
-
-
+        public void Item(string text, int gold, int attack, int defence, bool twoHanded)
+        {
+            Console.WriteLine($"{text}");
+            Console.WriteLine($"{gold} gold");
+            if (twoHanded) Console.WriteLine($"{"It needs to be used by both hands"}");
+            if (attack > 0) Console.WriteLine($"Attack + {attack}");
+            if (defence > 0) Console.WriteLine($"Defence + {defence}");
+            Console.WriteLine();
         }
 
     }

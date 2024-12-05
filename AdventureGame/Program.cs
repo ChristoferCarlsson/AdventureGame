@@ -11,8 +11,6 @@ namespace AdventureGame
             RollDie die = new RollDie();
 
             Adventure adventure = new Adventure();
-            Combat combat = new Combat();
-            Store store = new Store();
             AnsiConsole.Markup("[bold yellow]Welcome to the Adventure Game![/]\n");
 
             var startSelection = AnsiConsole.Prompt(

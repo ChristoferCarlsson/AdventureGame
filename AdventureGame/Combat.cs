@@ -1,17 +1,15 @@
 ﻿using Spectre.Console;
+using System.Numerics;
 
 namespace AdventureGame
 {
     public class Combat
     {
-        //We create the player and the enemy
-        Character player = new Character("Player",3,10,15);
-        Character enemy = new Character("Kobold",2, 10, 10);
 
         //We create a die
         RollDie rollDie = new RollDie();
 
-        public void Start()
+        public void Start(Character player, Character enemy)
         {
             bool playerFirst = Initiative();
             Thread.Sleep(1000);
@@ -23,7 +21,7 @@ namespace AdventureGame
             while (fight) 
             {
                 //if the player goes first, their function runs.
-                if (playerFirst) if (CheckIfDead("player", CombatChoice()))
+                if (playerFirst) if (CheckIfDead("player", CombatChoice(player,enemy)))
                 {
                     fight = false;
                     break;
@@ -41,7 +39,7 @@ namespace AdventureGame
                     break;
                 }
 
-                if (!playerFirst) if (CheckIfDead("player", CombatChoice()))
+                if (!playerFirst) if (CheckIfDead("player", CombatChoice(player, enemy)))
                 {
                     fight = false;
                     break;
@@ -82,7 +80,7 @@ namespace AdventureGame
             {
                 int damageRoll = rollDie.Roll(6) + attacker.Attack;
                 defender.Health = defender.Health - damageRoll;
-                Console.WriteLine($" The attack hits, dealing {damageRoll} points of damage.");
+                Console.WriteLine($"The attack hits, dealing {damageRoll} points of damage.");
                 if (defender.Health <= 0)
                 {
                     return true;
@@ -103,12 +101,12 @@ namespace AdventureGame
         {
             if (dead == true && character == "player" )
             {
-                Console.WriteLine($"{enemy.Name} has fallen.");
+                Console.WriteLine($"The enemy has fallen.");
                 Console.WriteLine("You are victorious");
                 return true;
             } else if (dead == true && character == "enemy" )
             {
-                Console.WriteLine($"{player.Name} has fallen.");
+                Console.WriteLine($"You have fallen.");
                 Console.WriteLine("You are dead");
                 return true;
             } else
@@ -117,7 +115,7 @@ namespace AdventureGame
             }
         }
         //We give the player a choice during combat
-        public bool CombatChoice()
+        public bool CombatChoice(Character player, Character enemy )
         {
             bool dead = false;
             bool attack = true;
