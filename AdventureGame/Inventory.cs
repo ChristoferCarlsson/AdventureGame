@@ -10,12 +10,10 @@ namespace AdventureGame
     {
         public int Gold { get; set; }
         public List<Treasure> Treasure { get; set; }
-        public List<Arsenal> Arsenal { get; set; }
-        public Inventory(int gold, List<Treasure> treasure, List<Arsenal> arsenal)
+        public Inventory(int gold, List<Treasure> treasure)
         {
             Gold = gold;
             Treasure = treasure;
-            Arsenal = arsenal;
         }
     }
 }

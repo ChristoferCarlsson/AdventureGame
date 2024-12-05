@@ -5,12 +5,12 @@ namespace AdventureGame
 {
     public class Combat
     {
-
-        //We create a die
+        //We create a die that we will use for the combat solutions
         RollDie rollDie = new RollDie();
 
         public void Start(Character player, Character enemy)
         {
+            //We check if the player or the enemy goes first.
             bool playerFirst = Initiative();
             Thread.Sleep(1000);
             Console.WriteLine((playerFirst) ? "You go first" : "Enemy go first");
@@ -121,6 +121,8 @@ namespace AdventureGame
 
             AnsiConsole.Markup($"\n[green]You are facing a {enemy.Name}.[/]\n");
             Thread.Sleep(1000);
+            Console.WriteLine($"Player health: {player.Health}");
+            Console.WriteLine($"Enemy health: {enemy.Health}");
             while (attack)
             {
                 var combatChoice = AnsiConsole.Prompt(
