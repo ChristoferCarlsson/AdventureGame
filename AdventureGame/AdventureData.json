@@ -1,108 +1,69 @@
 {
-  "test": {
-    "Title": "Knife",
-    "Price": 20,
-    "Type": "Weapon",
-    "TwoHanded": false,
-    "Damage": 1,
-    "Armor": 0,
-    "Text": "A small kitchen knife"
-  },
   "player": {
     "Name": "John Doe",
     "Health": 15,
+    "MaxHealth": 15,
     "Attack": 2,
     "Defence": 5,
     "Weapon": {
       "Title": "Knife",
       "Price": 20,
       "Type": "Weapon",
-      "TwoHanded": false,
-      "Damage": 1,
-      "Armor": 0,
+      "Attack": 1,
+      "Defence": 0,
       "Text": "A small kitchen knife"
     },
     "Armor": {
       "Title": "Old Cloth Armor",
       "Price": 25,
       "Type": "Armor",
-      "TwoHanded": false,
-      "Damage": 0,
-      "Armor": 5,
-      "Text": "A old tattered armor"
+      "Attack": 0,
+      "Defence": 5,
+      "Text": "An old tattered piece of cloth armor"
+    },
+    "Shield": {
+      "Title": "Old Board",
+      "Price": 10,
+      "Type": "Shield",
+      "Attack": 0,
+      "Defence": 1,
+      "Text": "An old board being used as a makeshift shield"
     }
   },
   "inventory": {
     "Gold": 150,
-    "Treasure": [
+    "Items": [
       {
-        "Title": "A silver lamp",
-        "Value": 150,
-        "Text": "A pretty lamp.. could be sold for some adventure gold"
-      }
-    ],
-    "Arsenal": [
-      {
-        "Title": "Knife",
-        "Price": 20,
-        "Type": "Arsenal",
-        "TwoHanded": false,
-        "Damage": 1,
-        "Armor": 0,
-        "Text": "A small blade"
+        "Id": 0,
+        "Title": "Healing Potion",
+        "Amount":  3,
+        "Value": 30,
+        "Healing": 10,
+        "Damage": 0,
+        "Text": "A red healing potion, it heals 10 health"
       },
       {
-        "Title": "Old Cloth Armor",
-        "Price": 25,
-        "Type": "Armor",
-        "TwoHanded": false,
-        "Damage": 0,
-        "Armor": 5,
-        "Text": "A old tattered armor"
+        "Id": 1,
+        "Title": "Bomb",
+        "Amount": 3,
+        "Value": 30,
+        "Healing": 0,
+        "Damage": 10,
+        "Text": "A small grenade, it does 10 damage"
+      }
+    ],
+    "Treasure": [
+      {
+        "Title": "Silver lamp",
+        "Value": 150,
+        "Text": "A pretty lamp.. could be sold for some gold"
       }
     ]
   },
-  "store": [
-    {
-      "Title": "Shortsword",
-      "Price": 50,
-      "Type": "Item",
-      "TwoHanded": false,
-      "Damage": 2,
-      "Armor": 0,
-      "Text": "A short sword"
-    },
-    {
-      "Title": "Longsword",
-      "Price": 80,
-      "Type": "Item",
-      "TwoHanded": false,
-      "Damage": 3,
-      "Armor": 0,
-      "Text": "A long sword"
-    },
-    {
-      "Title": "Greatsword",
-      "Price": 80,
-      "Type": "Item",
-      "TwoHanded": true,
-      "Damage": 5,
-      "Armor": 0,
-      "Text": "A great sword, needs two hands"
-    },
-    {
-      "Title": "Shield",
-      "Price": 50,
-      "Type": "Item",
-      "TwoHanded": false,
-      "Damage": 0,
-      "Armor": 3,
-      "Text": "A shield, needs one hand free"
-    }
-  ],
   "enemies": [
     {
       "Name": "Goblin",
+      "MaxHealth": 5,
       "Health": 5,
       "Attack": 1,
       "Defence": 5,
@@ -123,6 +84,14 @@
         "Damage": 0,
         "Armor": 5,
         "Text": "A old tattered armor"
+      },
+      "Shield": {
+        "Title": "Old Board",
+        "Price": 10,
+        "Type": "Shield",
+        "Attack": 0,
+        "Defence": 1,
+        "Text": "An old board being used as a makeshift shield"
       }
     }
   ]

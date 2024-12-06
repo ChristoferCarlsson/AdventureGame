@@ -10,18 +10,22 @@ namespace AdventureGame
     {
         public string Name { get; set; }
         public int Health { get; set; }
+        public int MaxHealth { get; set; }
         public int Attack {  get; set; }
         public int Defence { get; set; }
         public Arsenal Weapon { get; set; }
         public Arsenal Armor { get; set; }
-        public Character(string name, int health, int attack, int defence,  Arsenal weapon, Arsenal armor)
+        public Arsenal Shield { get; set; }
+        public Character(string name, int health, int maxHealth, int attack, int defence,  Arsenal weapon, Arsenal armor, Arsenal shield)
         {
             Name = name;
             Health = health;
+            MaxHealth = maxHealth;
             Attack = attack;
             Defence = defence;
             Weapon = weapon;
             Armor = armor;
+            Shield = shield;
         }
     }
 }

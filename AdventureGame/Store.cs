@@ -1,4 +1,5 @@
 ﻿using Spectre.Console;
+using System.Text.Json;
 
 namespace AdventureGame
 {
@@ -6,29 +7,24 @@ namespace AdventureGame
     {
         //Vi sätter upp våran JSON fil
         string dataJSONfilPath = "AdventureData.json";
-        JsonFetch JsonFetch = new JsonFetch();
-        MyDatabase myDatabase = JsonFetch.fetch();
-
-        List<string> bought = new List<string>();
 
         int money = 0;
-        public void Shop()
+        public void Shop(MyDatabase myDatabase)
         {
-            var inventory = myDatabase.Inventory;
             bool shop = true;
-            money = inventory.Gold;
-
+            money = myDatabase.Inventory.Gold;
+            Console.Clear();
             AnsiConsole.Markup($"\n[green]You are facing a store clerk.[/]\n");
             AnsiConsole.Markup("\n[blue]Welcome![/]\n");
-
 
             Thread.Sleep(1000);
             Console.Clear();
             while (shop)
             {
                 AnsiConsole.Markup("\n[blue]What can I get ya?[/]\n");
+                //We show how much money you have
                 Console.WriteLine($"You have {money} gold");
-                var combatChoice = AnsiConsole.Prompt(
+                var storeChoice = AnsiConsole.Prompt(
                     new SelectionPrompt<string>()
                         .Title("")
                         .AddChoices(new[] {
@@ -36,65 +32,93 @@ namespace AdventureGame
                             "Longsword - 80 gold",
                             "Greatsword - 100 gold",
                             "Shield - 50 gold",
+                            "Hide armor - 80 gold",
+                            "Plate armor - 150 gold",
                             "Leave",
                         }));
 
-
-                // Handle location logic
-                switch (combatChoice)
+                switch (storeChoice)
                 {
                     case "Shortsword - 50 gold":
                         AnsiConsole.Markup("\n[blue]Ah, you have a fine eye. My boy made this the other week.[/]\n");
-                        Item("A short sword", 50, 2, 0, false);
-                        Purchase(50, "Shortsword");
+                        Item("Shortsword", 50, 2, 0, "A short sword", "Weapon", myDatabase);
                         break;
 
                     case "Longsword - 80 gold":
-                        AnsiConsole.Markup("\n[blue]Ah, you have a fine eye. This was handcrafted by my old man.[/]\n");
-                        Item("A long sword", 80, 3, 0, false);
-                        Purchase(80, "Longsword");
+                        AnsiConsole.Markup("\n[blue]Ah, good eye. I made this just the other day.[/]\n");
+                        Item("Longsword", 50, 3, 0, "A Long sword", "Weapon", myDatabase);
                         break;
 
-                    case "Greatsword - 100 gold":
-                        AnsiConsole.Markup("\n[blue]Ah, you have a fine eye. This was handcrafted by my old man.[/]\n");
-                        Item("A great sword", 100, 5, 0, true);
-                        Purchase(100, "Greatsword");
+                    case "Greatsword - 150 gold":
+                        AnsiConsole.Markup("\n[blue]You have a sense for quality I see. This was handcrafted by my old man.[/]\n");
+                        Item("Longsword", 50, 3, 0, "A Long sword", "Weapon", myDatabase);
                         break;
 
                     case "Shield - 50 gold":
-                        AnsiConsole.Markup("\n[blue]Ah, you have a fine eye. This was handcrafted by my old man.[/]\n");
-                        Item("A Shield, need one hand free hands", 50, 0, 2, false);
-                        Purchase(50, "Shield");
+                        AnsiConsole.Markup("\n[blue]It might not do much, but it will protect you in a pinch.[/]\n");
+                        Item("Shield", 50, 0, 3, "A Shield", "Shield", myDatabase);
+                        break;
+
+                    case "Hide armor - 80 gold":
+                        AnsiConsole.Markup("\n[blue]We are not really in the tanning busniess, but my nephew is. And I have to say, it is pretty sturdy.[/]\n");
+                        Item("Hide Armor", 80, 0, 8, "An armor made out of Hide", "Armor", myDatabase);
+                        break;
+
+                    case "Plate armor - 150 gold":
+                        AnsiConsole.Markup("\n[blue]Now this is a fine creation. It took everyone here to make it, but it is the best darn armor we have ever made.[/]\n");
+                        Item("Hide Armor", 150, 0, 10, "An armor expertly crafted out of steel", "Armor", myDatabase);
                         break;
 
                     case "Leave":
                         AnsiConsole.Markup("\n[blue]Have a nice day![/]\n");
-                        AnsiConsole.Markup("\n[blue]You leave the store[/]\n");
+                        AnsiConsole.Markup("\n[green]You leave the store[/]\n");
                         myDatabase.Inventory.Gold = money;
 
+                        string updatedJSON = JsonSerializer.Serialize(myDatabase, new JsonSerializerOptions { WriteIndented = true });
+                        File.WriteAllText(dataJSONfilPath, updatedJSON);
 
-                        foreach (var item in bought)
-                        {
-                            Console.WriteLine(item);
-                        }
-                        
                         shop = false;
                         break;
                 }
-
             }
-
         }
 
-        public void Purchase(int price, string item)
+        public void Item(string title, int price, int attack, int defence, string text, string type, MyDatabase myDatabase)
         {
+            Console.WriteLine($"{text}");
+            Console.WriteLine($"{price} gold");
+
+            //If it gives attack or defence, or if it is a shield it will display different things.
+            if (attack > 0)
+            {
+                Console.WriteLine($"+{attack} Damage");
+                Console.WriteLine($"Your current weapon gives +{myDatabase.Player.Weapon.Attack} Damage");
+                Console.WriteLine($"It would set your total attack to +{attack + myDatabase.Player.Attack} Damage");
+            }
+
+            else if (defence > 0 && title != "Shield")
+            {
+                Console.WriteLine($"+{defence} Defence");
+                Console.WriteLine($"Your current armor gives +{myDatabase.Player.Armor.Defence} Defence");
+                Console.WriteLine($"It would set your total defence to +{myDatabase.Player.Shield.Defence + myDatabase.Player.Defence + defence} Defence");
+            }
+
+            else if (title == "Shield")
+            {
+                Console.WriteLine($"+{defence} Defence");
+                Console.WriteLine($"Your current defence is +{myDatabase.Player.Armor.Defence + myDatabase.Player.Defence} Defence");
+                Console.WriteLine($"It would set your total defence to +{myDatabase.Player.Armor.Defence + myDatabase.Player.Defence + defence} Defence");
+            }
+            Console.WriteLine();
+
+            //We check if the user wants to buy the item
             var purchaseChoice = AnsiConsole.Prompt(
             new SelectionPrompt<string>()
-            .Title("Would you like to purchase this?")
-            .AddChoices(new[] {
+           .Title("Would you like to purchase this?")
+           .AddChoices(new[] {
                 "Yes",
                 "No",
-        }));
+            }));
 
             switch (purchaseChoice)
             {
@@ -104,35 +128,30 @@ namespace AdventureGame
                     {
                         AnsiConsole.Markup("\n[blue]Thanks for your business[/]\n");
                         money = money - price;
-                        bought.Add(item);
+                        Arsenal newEquipped = new Arsenal(title, price, attack, defence, text, type);
+                        //We add it to the right equipment slot
+                        if (type == "Weapon") myDatabase.Player.Weapon = newEquipped;
+                        if (type == "Armor") myDatabase.Player.Armor = newEquipped;
+                        if (type == "Shield") myDatabase.Player.Shield = newEquipped;
+
                         Thread.Sleep(1000);
                         Console.Clear();
                         return;
-                    } else
+                    }
+                    else
                     {
-                        AnsiConsole.Markup("\nSorry bud, you don't have enough money\n");
+                        AnsiConsole.Markup("\n[blue]Sorry bud, you don't have enough money[/]\n");
                         Thread.Sleep(2000);
                         Console.Clear();
                         return;
                     }
 
                 case "No":
-                    AnsiConsole.Markup("\n[blue]You don't buy it[/]\n");
+                    AnsiConsole.Markup("\n[green]You don't buy it[/]\n");
                     Thread.Sleep(1000);
                     Console.Clear();
                     return;
             }
         }
-
-        public void Item(string text, int gold, int attack, int defence, bool twoHanded)
-        {
-            Console.WriteLine($"{text}");
-            Console.WriteLine($"{gold} gold");
-            if (twoHanded) Console.WriteLine($"{"It needs to be used by both hands"}");
-            if (attack > 0) Console.WriteLine($"Attack + {attack}");
-            if (defence > 0) Console.WriteLine($"Defence + {defence}");
-            Console.WriteLine();
-        }
-
     }
 }

@@ -10,19 +10,19 @@ namespace AdventureGame
     {
         public string Title { get; set; }
         public int Price { get; set; }
-        public int Damage { get; set; }
-        public int Armor { get; set; }
-        public bool TwoHanded { get; set; }
+        public int Attack { get; set; }
+        public int Defence { get; set; }
         public string Text { get; set; }
+        public string Type { get; set; }
 
-        public Arsenal( string title, int price, int damage, int armor, bool twoHanded, string text)
+        public Arsenal( string title, int price, int attack, int defence, string text, string type)
         {
             Title = title;
             Price = price;
-            Damage = damage;
-            Armor = armor;
-            TwoHanded = twoHanded;
+            Attack = attack;
+            Defence = defence;
             Text = text;
+            Type = type;
         }
     }
 }
