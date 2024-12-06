@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Numerics;
+using Figgle;
 using Spectre.Console;
 
 namespace AdventureGame
@@ -10,7 +11,8 @@ namespace AdventureGame
         {
             RollDie die = new RollDie();
             Adventure adventure = new Adventure();
-            AnsiConsole.Markup("[bold yellow]Welcome to the Adventure Game![/]\n");
+            Console.WriteLine(
+            FiggleFonts.Standard.Render("Welcome Adventurer"));
 
             var startSelection = AnsiConsole.Prompt(
             new SelectionPrompt<string>()

@@ -10,6 +10,7 @@ namespace AdventureGame
     public class MyDatabase
     {
 
+
         [JsonPropertyName("player")]
         public Character Player { get; set; }
 
