@@ -114,7 +114,7 @@ namespace AdventureGame
 
                         //We reset the health for the next combat
                         defender.Health = defender.MaxHealth;
-                        attacker.Health = defender.MaxHealth;
+                        attacker.Health = attacker.MaxHealth;
 
                         combat = false;
                     }
