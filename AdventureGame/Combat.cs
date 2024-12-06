@@ -25,7 +25,6 @@ namespace AdventureGame
             var player = myDatabase.Player;
             //We check if the player or the enemy goes first.
             bool playerFirst = Initiative();
-            Thread.Sleep(1000);
             Console.WriteLine((playerFirst) ? "You go first" : "Enemy go first");
 
             while (combat)
@@ -35,7 +34,7 @@ namespace AdventureGame
                 {
                     CombatChoice(player, enemy, myDatabase);
                     //If the combat is over after the players turn, then they get rewarded
-                    if (combat == false) 
+                    if (combat == false)
                     {
                         Reward(myDatabase);
                         return true;
@@ -51,7 +50,7 @@ namespace AdventureGame
                 if (!playerFirst)
                 {
                     Attack(enemy, player, myDatabase);
-                    if (combat == false) return false; 
+                    if (combat == false) return false;
                 }
 
                 if (!playerFirst)
@@ -64,7 +63,7 @@ namespace AdventureGame
                     }
                 }
             }
-                return false;
+            return false;
         }
 
         //We check with a random roll who goes first
@@ -73,10 +72,10 @@ namespace AdventureGame
             int playerRoll = rollDie.Roll(20);
             int enemyRoll = rollDie.Roll(20);
 
-            Thread.Sleep(500);
             Console.WriteLine($"You rolled {playerRoll}");
-            Thread.Sleep(500);
+            Console.ReadLine();
             Console.WriteLine($"The enemy rolled {enemyRoll}");
+            Console.ReadLine();
 
             if (playerRoll > enemyRoll) return true;
             else if (playerRoll < enemyRoll) return false;
@@ -88,14 +87,15 @@ namespace AdventureGame
 
         public void Attack(Character attacker, Character defender, MyDatabase myDatabase)
         {
-            Thread.Sleep(500);
             Console.WriteLine($"{attacker.Name} attacks");
-            Thread.Sleep(1000);
+            Console.ReadLine();
 
-            int attackRoll = rollDie.Roll(20) + attacker.Attack;
+            int attackRoll = rollDie.Roll(20) + attacker.Attack + attacker.Weapon.Attack;
+
+            Console.WriteLine($"{attacker.Name} rolled {attackRoll} ");
 
             //If the attack is greater than the defenders defence, then the attack hits
-            if (attackRoll >= defender.Defence)
+            if (attackRoll >= defender.Defence + defender.Armor.Defence)
             {
                 int damageRoll = rollDie.Roll(6) + attacker.Attack;
                 defender.Health = defender.Health - damageRoll;
@@ -107,10 +107,9 @@ namespace AdventureGame
                     //We show different things depending if it is the player or enemy that has died
                     if (attacker.Name == myDatabase.Player.Name)
                     {
-                        Thread.Sleep(500);
                         Console.WriteLine($"The enemy has fallen.");
-                        Thread.Sleep(500);
                         Console.WriteLine("You are victorious");
+                        Console.ReadLine();
 
                         //We reset the health for the next combat
                         defender.Health = defender.MaxHealth;
@@ -120,10 +119,9 @@ namespace AdventureGame
                     }
                     else
                     {
-                        Thread.Sleep(500);
                         Console.WriteLine($"You have fallen.");
-                        Thread.Sleep(500);
                         Console.WriteLine("You are dead");
+                        Console.ReadLine();
 
                         combat = false;
                     }
@@ -143,7 +141,8 @@ namespace AdventureGame
             bool turn = true;
 
             AnsiConsole.Markup($"\n[green]You are facing a {enemy.Name}.[/]\n");
-            Thread.Sleep(1000);
+            Thread.Sleep(500);
+            Console.WriteLine($"Armor: {player.Armor.Defence + player.Defence}");
             Console.WriteLine($"Player health: {player.Health}");
             Console.WriteLine($"Enemy health: {enemy.Health}");
             while (turn)
@@ -175,17 +174,26 @@ namespace AdventureGame
                         int runAway = rollDie.Roll(20);
                         Console.WriteLine($"You rolled {runAway}");
                         Thread.Sleep(500);
+
+                        if (enemy.Name == "Dragon")
+                        {
+                            Console.WriteLine("You cannot get away from a dragon!");
+                            Console.ReadLine();
+                            combat = false;
+                            turn = false;
+                        }
+
                         if (runAway > 10)
                         {
-                            AnsiConsole.Markup("\n[blue]You manage to get away.[/]\n");
-                            Thread.Sleep(1000);
+                            Console.WriteLine("You manage to get away.");
+                            Console.ReadLine();
                             combat = false;
                             turn = false;
                         }
                         else
                         {
-                            AnsiConsole.Markup("\n[blue]You cannot run away.[/]\n");
-                            Thread.Sleep(1000);
+                            Console.WriteLine("You cannot get away!");
+                            Console.ReadLine();
                         }
 
                         break;
@@ -244,7 +252,30 @@ namespace AdventureGame
                         enemy.Health = enemy.Health - foundItem[0].Damage;
                         if (enemy.Health <= 0) combat = false;
 
-                        Console.WriteLine("You light the grenade and throw it.");
+                        Console.WriteLine("You light the bomb and throw it.");
+                        Thread.Sleep(500);
+                        Console.WriteLine("The explosion catched the enemy off guard!");
+                        Thread.Sleep(500);
+                        Console.WriteLine($"They take {foundItem[0].Damage}");
+                        Thread.Sleep(500);
+
+                        removeItem(foundItem[0], myDatabase);
+                        return true;
+                    }
+                    else Console.WriteLine("You put the item away");
+                    return false;
+
+                case "Black Bomb":
+                    Console.WriteLine("You take out a Black Bomb!");
+                    Console.WriteLine($"They deal {foundItem[0].Damage}");
+                    Console.WriteLine($"You have {foundItem[0].Amount} left");
+
+                    if (checkIfYes())
+                    {
+                        enemy.Health = enemy.Health - foundItem[0].Damage;
+                        if (enemy.Health <= 0) combat = false;
+
+                        Console.WriteLine("You light the black bomb and throw it.");
                         Thread.Sleep(500);
                         Console.WriteLine("The explosion catched the enemy off guard!");
                         Thread.Sleep(500);
@@ -300,6 +331,7 @@ namespace AdventureGame
 
         public void Reward(MyDatabase myDatabase)
         {
+            //We make a random list of rewards
             List<int> reward = new List<int>
             {
                 3,3,4,5,5,8,10,12,15,16,14
@@ -317,6 +349,8 @@ namespace AdventureGame
 
             string updatedJSON = JsonSerializer.Serialize(myDatabase, new JsonSerializerOptions { WriteIndented = true });
             File.WriteAllText(dataJSONfilPath, updatedJSON);
+
+            Console.ReadLine();
         }
 
     }

@@ -14,10 +14,14 @@ namespace AdventureGame
 
         Combat combat = new Combat();
         Store store = new Store();
+        Story story = new Story();
+
+        bool narrow = false;
+        bool goblin = false;
 
         RollDie rollDie = new RollDie();
         bool exploring = true;
-        public void Start()
+        public bool Start()
         {
             Console.WriteLine("What is your name?");
             string Name = Console.ReadLine();
@@ -38,51 +42,160 @@ namespace AdventureGame
                 string updatedJSON = JsonSerializer.Serialize(myDatabase, new JsonSerializerOptions { WriteIndented = true });
                 File.WriteAllText(dataJSONfilPath, updatedJSON);
 
-                while (exploring)
-                {
-                    CrossRoad();
-                }
+                story.Start();
+
+                CrossRoad();
             }
             else
             {
                 Start();
             }
+
+            return false;
         }
 
         public void CrossRoad()
         {
-
-            AnsiConsole.Markup("\n[green]You find yourself in a dark forest. You can barely make out paths leading in different directions.[/]\n");
-            // Show location choices
-            var location = AnsiConsole.Prompt(
+            while (exploring)
+            {
+                // Show location choices
+                var location = AnsiConsole.Prompt(
                 new SelectionPrompt<string>()
                     .Title("Which direction would you like to go?")
                     .PageSize(4)
                     .AddChoices(new[] {
                             "North - The Misty Mountains",
-                            "East - The Haunted Swamp",
+                            "East - The Goblin Woods",
                             "West - The Sunlit Grove",
                             "South - Return Home",
                     }));
 
+                // Handle location logic
+                switch (location)
+                {
+                    case "North - The Misty Mountains":
+                        story.MountainStart();
+                        if (YesOrNo())
+                        {
+                            story.MountainReady();
+                            Cave();
+                        }
+                        else
+                        {
+                            story.MountainNotReady();
+                        }
+                        break;
+                    case "East - The Goblin Woods":
+                        //If this is the first time the player goes here
+                        if (!goblin)
+                        {
+                            story.GoblinWoods();
+                            goblin = true;
+                        }
+                        //Otherwise we will show different text.
+                        else story.GoblinWoodsAgain();
+
+                        //If the player dies
+                        if (!combat.Start(myDatabase.Enemies[0], myDatabase))
+                        {
+                            story.Dead();
+                            exploring = false;
+                        }
+                        //We tell what happens after the combat
+                        story.AfterGoblin();
+                        break;
+                    case "West - The Sunlit Grove":
+                        story.SunlitGrove();
+                        store.Shop(myDatabase);
+                        break;
+                    case "South - Return Home":
+                        story.GoHome();
+                        exploring = false;
+                        break;
+                }
+
+            }
+
+        }
+
+        public void Cave()
+        {
+            while (exploring)
+            {
+                var location = AnsiConsole.Prompt(
+            new SelectionPrompt<string>()
+            .AddChoices(new[] {
+                   "Large Path",
+                   "Narrow Path",
+                   "Leave",
+            }));
+
+                // Handle location logic
+                switch (location)
+                {
+                    case "Large Path":
+                        LargePath();
+                        break;
+
+                    case "Narrow Path":
+                        if (!narrow)
+                        {
+                            story.NarrowPath();
+                            narrow = true;
+
+                            List<Item> allItems = myDatabase.Inventory.Items;
+                            allItems.Add(new Item(allItems.Count, "Black Bomb", 1, 999, 0, 20, "A black and dangerous bomb"));
+                            string updatedJSON = JsonSerializer.Serialize(myDatabase, new JsonSerializerOptions { WriteIndented = true });
+                            File.WriteAllText(dataJSONfilPath, updatedJSON);
+                        }
+                        else
+                        {
+                            story.NarrowPathAgain();
+                        }
+                        break;
+
+                    case "Leave":
+                        story.GoHome();
+                        exploring = false;
+                        break;
+                }
+            }
+        }
+
+        public void LargePath()
+        {
+            story.LargePath();
+            var location = AnsiConsole.Prompt(
+            new SelectionPrompt<string>()
+            .AddChoices(new[] {
+                   "Talk",
+                   "Fight",
+                   "Run!",
+            }));
+
             // Handle location logic
             switch (location)
             {
-                case "North - The Misty Mountains":
-                    AnsiConsole.Markup("\n[blue]You went to the mountains.[/]\n");
-                    AnsiConsole.Markup("\n[blue]You are attacked by a goblin![/]\n");
-                    if (!combat.Start(myDatabase.Enemies[0], myDatabase)) exploring = false;
+                case "Talk":
+                    story.LargePathTalk();
+                    story.End();
+                    exploring = false;
                     break;
-                case "East - The Haunted Swamp":
-                    AnsiConsole.Markup("\n[blue]You went to the swamp.[/]\n");
+                case "Fight":
+                    story.LargePathFight();
+                    if (!combat.Start(myDatabase.Enemies[1], myDatabase))
+                    {
+                        story.Dead();
+                        exploring = false;
+                    }
+                    else
+                    {
+                        story.End();
+                        exploring = false;
+                    }
                     break;
-                case "West - The Sunlit Grove":
-                    AnsiConsole.Markup("\n[blue]You went to the grove.[/]\n");
-                    AnsiConsole.Markup("\n[blue]You found a shop!.[/]\n");
-                    store.Shop(myDatabase);
-                    break;
-                case "South - Return Home":
-                    AnsiConsole.Markup("\n[blue]You decide to return home, ending your adventure for now.[/]\n");
+                case "Run":
+                    story.GoHome();
                     exploring = false;
                     break;
             }

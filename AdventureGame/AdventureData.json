@@ -53,11 +53,6 @@
       }
     ],
     "Treasure": [
-      {
-        "Title": "Silver lamp",
-        "Value": 150,
-        "Text": "A pretty lamp.. could be sold for some gold"
-      }
     ]
   },
   "enemies": [
@@ -71,18 +66,16 @@
         "Title": "Knife",
         "Price": 20,
         "Type": "Weapon",
-        "TwoHanded": false,
-        "Damage": 1,
-        "Armor": 0,
+        "Attack": 1,
+        "Defence": 0,
         "Text": "A small kitchen knife"
       },
       "Armor": {
         "Title": "Old Cloth Armor",
         "Price": 25,
         "Type": "Armor",
-        "TwoHanded": false,
-        "Damage": 0,
-        "Armor": 5,
+        "Attack": 0,
+        "Defence": 5,
         "Text": "A old tattered armor"
       },
       "Shield": {
@@ -92,6 +85,37 @@
         "Attack": 0,
         "Defence": 1,
         "Text": "An old board being used as a makeshift shield"
+      }
+    },
+    {
+      "Name": "Dragon",
+      "MaxHealth": 35,
+      "Health": 35,
+      "Attack": 4,
+      "Defence": 10,
+      "Weapon": {
+        "Title": "Claws",
+        "Price": 20,
+        "Type": "Weapon",
+        "Attack": 3,
+        "Defence": 0,
+        "Text": "A small kitchen knife"
+      },
+      "Armor": {
+        "Title": "Dragon Hide",
+        "Price": 999,
+        "Type": "Armor",
+        "Attack": 0,
+        "Defence": 5,
+        "Text": "A old tattered armor"
+      },
+      "Shield": {
+        "Title": "None",
+        "Price": 0,
+        "Type": "Shield",
+        "Attack": 0,
+        "Defence": 0,
+        "Text": ""
       }
     }
   ]

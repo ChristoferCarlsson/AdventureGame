@@ -13,12 +13,8 @@ namespace AdventureGame
         {
             bool shop = true;
             money = myDatabase.Inventory.Gold;
-            Console.Clear();
-            AnsiConsole.Markup($"\n[green]You are facing a store clerk.[/]\n");
-            AnsiConsole.Markup("\n[blue]Welcome![/]\n");
 
             Thread.Sleep(1000);
-            Console.Clear();
             while (shop)
             {
                 AnsiConsole.Markup("\n[blue]What can I get ya?[/]\n");
@@ -30,7 +26,7 @@ namespace AdventureGame
                         .AddChoices(new[] {
                             "Shortsword - 50 gold",
                             "Longsword - 80 gold",
-                            "Greatsword - 100 gold",
+                            "Greatsword - 150 gold",
                             "Shield - 50 gold",
                             "Hide armor - 80 gold",
                             "Plate armor - 150 gold",
@@ -51,7 +47,7 @@ namespace AdventureGame
 
                     case "Greatsword - 150 gold":
                         AnsiConsole.Markup("\n[blue]You have a sense for quality I see. This was handcrafted by my old man.[/]\n");
-                        Item("Longsword", 50, 3, 0, "A Long sword", "Weapon", myDatabase);
+                        Item("Greatsword", 50, 6, 0, "A Greatsword", "Weapon", myDatabase);
                         break;
 
                     case "Shield - 50 gold":
@@ -71,7 +67,8 @@ namespace AdventureGame
 
                     case "Leave":
                         AnsiConsole.Markup("\n[blue]Have a nice day![/]\n");
-                        AnsiConsole.Markup("\n[green]You leave the store[/]\n");
+                        Console.WriteLine("You leave the store and go back to the crossroads.");
+                        Console.ReadLine();
                         myDatabase.Inventory.Gold = money;
 
                         string updatedJSON = JsonSerializer.Serialize(myDatabase, new JsonSerializerOptions { WriteIndented = true });
