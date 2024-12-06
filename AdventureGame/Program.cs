@@ -9,7 +9,6 @@ namespace AdventureGame
         static void Main(string[] args)
         {
             RollDie die = new RollDie();
-
             Adventure adventure = new Adventure();
             AnsiConsole.Markup("[bold yellow]Welcome to the Adventure Game![/]\n");
 

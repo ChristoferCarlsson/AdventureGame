@@ -1,9 +1,6 @@
 ﻿using Spectre.Console;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Text.Json;
+using System.Text.RegularExpressions;
 
 namespace AdventureGame
 {
@@ -18,14 +15,37 @@ namespace AdventureGame
         Combat combat = new Combat();
         Store store = new Store();
 
-
         RollDie rollDie = new RollDie();
         bool exploring = true;
         public void Start()
         {
-            while (exploring)
+            Console.WriteLine("What is your name?");
+            string Name = Console.ReadLine();
+
+            //If the name is empty or null
+            if (Name == "" || Name == null)
             {
-                CrossRoad();
+                Console.WriteLine("Please enter your name");
+                Start();
+            }
+            //We make the first letter large for consistency
+            Name = Regex.Replace(Name, "^[a-z]", c => c.Value.ToUpper());
+            Console.WriteLine($"Are you sure that your name is {Name}?");
+
+            if (YesOrNo())
+            {
+                myDatabase.Player.Name = Name;
+                string updatedJSON = JsonSerializer.Serialize(myDatabase, new JsonSerializerOptions { WriteIndented = true });
+                File.WriteAllText(dataJSONfilPath, updatedJSON);
+
+                while (exploring)
+                {
+                    CrossRoad();
+                }
+            }
+            else
+            {
+                Start();
             }
         }
 
@@ -67,6 +87,26 @@ namespace AdventureGame
                     break;
             }
 
+        }
+
+        public bool YesOrNo()
+        {
+            var purchaseChoice = AnsiConsole.Prompt(
+            new SelectionPrompt<string>()
+            .AddChoices(new[] {
+                "Yes",
+                "No",
+            }));
+
+            switch (purchaseChoice)
+            {
+                case "Yes":
+                    return true;
+
+                case "No":
+                    return false;
+            }
+            return false;
         }
     }
 }
