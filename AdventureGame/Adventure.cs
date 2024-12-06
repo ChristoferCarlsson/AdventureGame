@@ -42,8 +42,9 @@ namespace AdventureGame
                 string updatedJSON = JsonSerializer.Serialize(myDatabase, new JsonSerializerOptions { WriteIndented = true });
                 File.WriteAllText(dataJSONfilPath, updatedJSON);
 
-                story.Start();
+                Console.WriteLine("Press enter for next line!");
 
+                story.Start();
                 CrossRoad();
             }
             else
@@ -142,7 +143,7 @@ namespace AdventureGame
                         {
                             story.NarrowPath();
                             narrow = true;
-
+                            //We give the player a new item
                             List<Item> allItems = myDatabase.Inventory.Items;
                             allItems.Add(new Item(allItems.Count, "Black Bomb", 1, 999, 0, 20, "A black and dangerous bomb"));
                             string updatedJSON = JsonSerializer.Serialize(myDatabase, new JsonSerializerOptions { WriteIndented = true });
