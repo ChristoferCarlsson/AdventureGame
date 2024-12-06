@@ -2,6 +2,7 @@
   "player": {
     "Name": "John Doe",
     "Health": 15,
+    "MaxHealth": 15,
     "Attack": 2,
     "Defence": 5,
     "Weapon": {
@@ -31,6 +32,26 @@
   },
   "inventory": {
     "Gold": 150,
+    "Items": [
+      {
+        "Id": 0,
+        "Title": "Healing Potion",
+        "Amount":  3,
+        "Value": 30,
+        "Healing": 10,
+        "Damage": 0,
+        "Text": "A red healing potion, it heals 10 health"
+      },
+      {
+        "Id": 1,
+        "Title": "Bomb",
+        "Amount": 3,
+        "Value": 30,
+        "Healing": 0,
+        "Damage": 10,
+        "Text": "A small grenade, it does 10 damage"
+      }
+    ],
     "Treasure": [
       {
         "Title": "Silver lamp",
@@ -42,6 +63,7 @@
   "enemies": [
     {
       "Name": "Goblin",
+      "MaxHealth": 5,
       "Health": 5,
       "Attack": 1,
       "Defence": 5,

@@ -1,4 +1,5 @@
 ﻿using Spectre.Console;
+using System.Text.Json;
 
 namespace AdventureGame
 {
@@ -6,11 +7,9 @@ namespace AdventureGame
     {
         //Vi sätter upp våran JSON fil
         string dataJSONfilPath = "AdventureData.json";
-        JsonFetch JsonFetch = new JsonFetch();
-        MyDatabase myDatabase = JsonFetch.fetch();
 
         int money = 0;
-        public void Shop()
+        public void Shop(MyDatabase myDatabase)
         {
             bool shop = true;
             money = myDatabase.Inventory.Gold;
@@ -42,32 +41,32 @@ namespace AdventureGame
                 {
                     case "Shortsword - 50 gold":
                         AnsiConsole.Markup("\n[blue]Ah, you have a fine eye. My boy made this the other week.[/]\n");
-                        Item("Shortsword", 50, 2, 0, "A short sword", "Weapon");
+                        Item("Shortsword", 50, 2, 0, "A short sword", "Weapon", myDatabase);
                         break;
 
                     case "Longsword - 80 gold":
                         AnsiConsole.Markup("\n[blue]Ah, good eye. I made this just the other day.[/]\n");
-                        Item("Longsword", 50, 3, 0, "A Long sword", "Weapon");
+                        Item("Longsword", 50, 3, 0, "A Long sword", "Weapon", myDatabase);
                         break;
 
                     case "Greatsword - 150 gold":
                         AnsiConsole.Markup("\n[blue]You have a sense for quality I see. This was handcrafted by my old man.[/]\n");
-                        Item("Longsword", 50, 3, 0, "A Long sword", "Weapon");
+                        Item("Longsword", 50, 3, 0, "A Long sword", "Weapon", myDatabase);
                         break;
 
                     case "Shield - 50 gold":
                         AnsiConsole.Markup("\n[blue]It might not do much, but it will protect you in a pinch.[/]\n");
-                        Item("Shield", 50, 0, 3, "A Shield", "Shield");
+                        Item("Shield", 50, 0, 3, "A Shield", "Shield", myDatabase);
                         break;
 
                     case "Hide armor - 80 gold":
                         AnsiConsole.Markup("\n[blue]We are not really in the tanning busniess, but my nephew is. And I have to say, it is pretty sturdy.[/]\n");
-                        Item("Hide Armor", 80, 0, 8, "An armor made out of Hide", "Armor");
+                        Item("Hide Armor", 80, 0, 8, "An armor made out of Hide", "Armor", myDatabase);
                         break;
 
                     case "Plate armor - 150 gold":
                         AnsiConsole.Markup("\n[blue]Now this is a fine creation. It took everyone here to make it, but it is the best darn armor we have ever made.[/]\n");
-                        Item("Hide Armor", 150, 0, 10, "An armor expertly crafted out of steel", "Armor");
+                        Item("Hide Armor", 150, 0, 10, "An armor expertly crafted out of steel", "Armor", myDatabase);
                         break;
 
                     case "Leave":
@@ -75,13 +74,16 @@ namespace AdventureGame
                         AnsiConsole.Markup("\n[green]You leave the store[/]\n");
                         myDatabase.Inventory.Gold = money;
 
+                        string updatedJSON = JsonSerializer.Serialize(myDatabase, new JsonSerializerOptions { WriteIndented = true });
+                        File.WriteAllText(dataJSONfilPath, updatedJSON);
+
                         shop = false;
                         break;
                 }
             }
         }
 
-        public void Item(string title, int price, int attack, int defence, string text, string type)
+        public void Item(string title, int price, int attack, int defence, string text, string type, MyDatabase myDatabase)
         {
             Console.WriteLine($"{text}");
             Console.WriteLine($"{price} gold");

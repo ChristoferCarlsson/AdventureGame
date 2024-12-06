@@ -51,7 +51,7 @@ namespace AdventureGame
                 case "North - The Misty Mountains":
                     AnsiConsole.Markup("\n[blue]You went to the mountains.[/]\n");
                     AnsiConsole.Markup("\n[blue]You are attacked by a goblin![/]\n");
-                    combat.Start(myDatabase.Enemies[0]);
+                    if (!combat.Start(myDatabase.Enemies[0], myDatabase)) exploring = false;
                     break;
                 case "East - The Haunted Swamp":
                     AnsiConsole.Markup("\n[blue]You went to the swamp.[/]\n");
@@ -59,7 +59,7 @@ namespace AdventureGame
                 case "West - The Sunlit Grove":
                     AnsiConsole.Markup("\n[blue]You went to the grove.[/]\n");
                     AnsiConsole.Markup("\n[blue]You found a shop!.[/]\n");
-                    store.Shop();
+                    store.Shop(myDatabase);
                     break;
                 case "South - Return Home":
                     AnsiConsole.Markup("\n[blue]You decide to return home, ending your adventure for now.[/]\n");
